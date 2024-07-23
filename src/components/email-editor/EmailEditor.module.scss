@@ -1,19 +1,27 @@
-.card {
-    background-color: rgba(0,0,0,0.4);
-    border-radius: 10px;
-    overflow: hidden;
+.preview {
+    margin-bottom: 1.5rem;
     border: 1px solid #2e2e2e;
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+.card {
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.4);
+    border: 1px solid #2e2e2e;
+    overflow: hidden;
 
 
     .editor {
         padding: 1.2rem;
         padding-bottom: 1.5rem;
         display: block;
-        width: 100%;
+        width: calc(100% - 2.4rem);
         min-height: 160px;
         border: none;
         outline: none;
         background: transparent;
+        resize: none;
     }
 
     .actions {
