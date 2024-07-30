@@ -1,64 +1,37 @@
-import styles from './EmailEditor.module.scss'
-import { useRef, useState} from 'react'
-import { Eraser } from 'lucide-react';
-import { Bold } from 'lucide-react';
-import { Italic } from 'lucide-react';
-import { Underline } from 'lucide-react';
+import styles from './EmailEditor.module.scss';
+import { useRef, useState} from 'react';
 import parse from 'html-react-parser';
-
-export type TStyle = 'bold' | 'italic' | 'underline'
-
-export const applyStyle = (
-    type: TStyle, 
-    selectedText:string) => {
-    
-    let formattedText = selectedText
-    
-    switch (type) {
-        case 'bold':
-            formattedText = '<b>' + selectedText + '</b>';
-            break;
-        case 'italic':
-            formattedText = '<i>' + selectedText + '</i>';
-            break;
-        case 'underline':
-            formattedText = '<u>' + selectedText + '</u>';
-            break;
-        default:
-            formattedText = selectedText;
-    }
-
-return formattedText
-}
+import { Bold, Eraser, Italic, Underline } from 'lucide-react';
+import { applyStyle, TStyle } from './apply-styles.ts';
 
 export function EmailEditor() {
   const [text, setText] = useState(`Hey!
   Lorem ipsum dolor sit amet consectetur, adipisicing 
   elit. Beatae voluptatibus, <b>ipsum</b> modi facere, minus 
   provident culpa corrupti eum, quos aliquid quasi soluta 
-  repudiandae. Inventore, cumque tempora perferendis minus quae saepe?`)
+  repudiandae. Inventore, cumque tempora perferendis minus quae saepe?`);
 
   const [selectionStart, setSelectionStart] = useState(0);
   const [selectionEnd, setSelectionEnd] = useState(0);
 
   const updateSelection = () => {
     if (!textRef.current) return
-    setSelectionStart(textRef.current.selectionStart)
-    setSelectionEnd(textRef.current.selectionEnd)
+    setSelectionStart(textRef.current.selectionStart);
+    setSelectionEnd(textRef.current.selectionEnd);
   }
 
-  const textRef = useRef<HTMLTextAreaElement | null>(null)
+  const textRef = useRef<HTMLTextAreaElement | null>(null);
 
   const applyFormat = (type: TStyle) => {
-    const selectedText = text.substring(selectionStart, selectionEnd) // выделенный текст
+    const selectedText = text.substring(selectionStart, selectionEnd); // выделенный текст
 
     if (!selectedText) return
 
     const before = text.substring(0, selectionStart); // текст до выделенного фрагмента
     
-    const after = text.substring(selectionEnd) // текст после выделенного фрагмента
+    const after = text.substring(selectionEnd); // текст после выделенного фрагмента
 
-    setText(before + applyStyle(type, selectedText) + after)
+    setText(before + applyStyle(type, selectedText) + after);
   }
 
   return (
@@ -94,7 +67,6 @@ export function EmailEditor() {
       <button>Send now</button>
     </div>
   </div>
-
   </div>
   )
 }
