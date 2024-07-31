@@ -4,18 +4,34 @@ import parse from 'html-react-parser';
 import { Bold, Eraser, Italic, Underline } from 'lucide-react';
 import { applyStyle, TStyle } from './apply-styles.ts';
 
-const UniversalButton = ({ onClick, icon }) => {
-  return (
-    <button 
-      onClick={onClick}
-      className="universal-button"
-    >
-      {icon && <span className="icon">{icon}</span>}
-    </button>
-  );
-};
-
 export function EmailEditor() {
+  const IconButton = ({ onClick, IconComponent }) => {
+    return (
+      <button onClick={onClick}>
+        <IconComponent size={17} />
+      </button>
+    );
+  };
+  
+  const TextFormatToolbar = ({ applyFormat }) => {
+    const buttons = [
+      { icon: Eraser, onClick: () => setText('') },
+      { icon: Bold, onClick: () => applyFormat('bold') },
+      { icon: Italic, onClick: () => applyFormat('italic') },
+      { icon: Underline, onClick: () => applyFormat('underline') },
+    ];
+  
+    return (
+      <div className={styles.actions}>
+        <div className={styles.tools}>
+        {buttons.map(({ icon: IconComponent, onClick }, index) => (
+          <IconButton key={index} onClick={onClick} IconComponent={IconComponent} />
+        ))}
+      </div>
+      </div>
+    );
+  };
+
   const [text, setText] = useState(`Hey!
   Lorem ipsum dolor sit amet consectetur, adipisicing 
   elit. Beatae voluptatibus, <b>ipsum</b> modi facere, minus 
@@ -62,36 +78,7 @@ export function EmailEditor() {
     </textarea>
     <div className={styles.actions}>
       <div className={styles.tools}>
-
-      <UniversalButton 
-        onClick={() => setText('')} 
-        icon={<Eraser size={17} />}
-      />
-      <UniversalButton 
-        onClick={() => applyFormat('bold')} 
-        icon={<Bold size={17} />}
-      />
-      <UniversalButton 
-        onClick={() => applyFormat('italic')} 
-        icon={<Italic size={17} />}
-      />
-      <UniversalButton 
-        onClick={() => applyFormat('underline')} 
-        icon={<Underline size={17} />}
-      />
-
-      {/* <button onClick={() => setText('')}>
-        <Eraser size={17} />
-        </button>
-      <button onClick={() => applyFormat('bold')}>
-        <Bold size={17} />
-        </button>
-      <button onClick={() => applyFormat('italic')}>
-        <Italic size={17} />
-        </button>
-      <button onClick={() => applyFormat('underline')}>
-        <Underline size={17} />
-        </button> */}
+        <TextFormatToolbar applyFormat={applyFormat} />
       </div>
       <button>Send now</button>
     </div>
