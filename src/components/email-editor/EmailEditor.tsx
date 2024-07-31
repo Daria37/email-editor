@@ -4,6 +4,17 @@ import parse from 'html-react-parser';
 import { Bold, Eraser, Italic, Underline } from 'lucide-react';
 import { applyStyle, TStyle } from './apply-styles.ts';
 
+const UniversalButton = ({ onClick, icon }) => {
+  return (
+    <button 
+      onClick={onClick}
+      className="universal-button"
+    >
+      {icon && <span className="icon">{icon}</span>}
+    </button>
+  );
+};
+
 export function EmailEditor() {
   const [text, setText] = useState(`Hey!
   Lorem ipsum dolor sit amet consectetur, adipisicing 
@@ -51,7 +62,25 @@ export function EmailEditor() {
     </textarea>
     <div className={styles.actions}>
       <div className={styles.tools}>
-      <button onClick={() => setText('')}>
+
+      <UniversalButton 
+        onClick={() => setText('')} 
+        icon={<Eraser size={17} />}
+      />
+      <UniversalButton 
+        onClick={() => applyFormat('bold')} 
+        icon={<Bold size={17} />}
+      />
+      <UniversalButton 
+        onClick={() => applyFormat('italic')} 
+        icon={<Italic size={17} />}
+      />
+      <UniversalButton 
+        onClick={() => applyFormat('underline')} 
+        icon={<Underline size={17} />}
+      />
+
+      {/* <button onClick={() => setText('')}>
         <Eraser size={17} />
         </button>
       <button onClick={() => applyFormat('bold')}>
@@ -62,7 +91,7 @@ export function EmailEditor() {
         </button>
       <button onClick={() => applyFormat('underline')}>
         <Underline size={17} />
-        </button>
+        </button> */}
       </div>
       <button>Send now</button>
     </div>
